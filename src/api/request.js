@@ -1,7 +1,7 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-16 15:16:48
- * @LastEditTime: 2022-08-16 15:51:39
+ * @LastEditTime: 2022-08-16 19:31:27
  */
 
 // 对于 axios 进行二次封装
@@ -27,6 +27,7 @@ const requests = axios.create({
 requests.interceptors.request.use((config) => {
     //config : 配置对象,里面有一个属性很重要 headers请求头
     //进度条开始
+    // console.log(config)
     nprogress.start()
     return config
 })

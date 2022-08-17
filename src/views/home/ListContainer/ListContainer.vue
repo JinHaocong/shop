@@ -1,7 +1,7 @@
 <!--
  * @Author: Jin Haocong
  * @Date: 2022-08-16 14:34:44
- * @LastEditTime: 2022-08-17 15:58:09
+ * @LastEditTime: 2022-08-18 01:20:33
 -->
 <template>
   <!--列表-->
@@ -10,6 +10,7 @@
       <div class="center">
         <!--banner轮播-->
         <common-carousel
+          class="swiper"
           :list="bannerList"
           key="1"
           :watchNow="false"
@@ -156,6 +157,11 @@ export default {
       height: 100%;
       padding: 5px;
       float: left;
+      .swiper {
+        border-radius: 40px;
+        width: 710px;
+        height: 450px;
+      }
     }
 
     .right {
@@ -165,6 +171,7 @@ export default {
       .news {
         border: 1px solid #e4e4e4;
         margin-top: 5px;
+        border-radius: 40px;
 
         h4 {
           border-bottom: 1px solid #e4e4e4;
@@ -196,15 +203,15 @@ export default {
       }
 
       .lifeservices {
-        border-right: 1px solid #e4e4e4;
+        border: 1px solid #e4e4e4;
         overflow: hidden;
         display: flex;
         flex-wrap: wrap;
+        border-radius: 40px;
+        margin-top: 10px;
+        background-color: aliceblue;
 
         .life-item {
-          border-left: 1px solid #e4e4e4;
-          border-bottom: 1px solid #e4e4e4;
-          margin-right: -1px;
           height: 64px;
           text-align: center;
           position: relative;
@@ -302,9 +309,9 @@ export default {
         margin-top: 5px;
 
         img {
-          opacity: 0.8;
+          opacity: 0.7;
           transition: all 400ms;
-
+          border-radius: 20px;
           &:hover {
             opacity: 1;
           }

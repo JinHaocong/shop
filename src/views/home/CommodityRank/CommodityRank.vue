@@ -171,6 +171,7 @@ export default {
           overflow: hidden;
           margin: 0 12px 10px;
           background: #fff;
+          border-radius: 40px;
 
           .tab-pic {
             width: 230px;
@@ -207,7 +208,7 @@ export default {
               font-size: 20px;
               color: #e1251b;
               height: 35px;
-              padding-left: 10px;
+              padding-left: 30px;
               display: block;
               line-height: 24px;
               margin: 10px auto 0;

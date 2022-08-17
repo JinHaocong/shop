@@ -1,7 +1,7 @@
 <!--
  * @Author: Jin Haocong
  * @Date: 2022-08-16 14:24:47
- * @LastEditTime: 2022-08-17 10:26:30
+ * @LastEditTime: 2022-08-18 01:29:15
 -->
 <template>
   <!-- 商品分类导航 -->
@@ -138,7 +138,6 @@ export default {
       //子节点 a 标签 加上自定义属性 data-categoryName
       // 获取到当前事件触发的节点，需要带有 data-categoryName
       //节点有一个 dataset属性 可以获取节点的自定义属性和值
-      console.log(element.dataset);
       //解构赋值 注意 驼峰要小写
       let { categoryname, category1id, category2id, category3id } =
         element.dataset;
@@ -161,7 +160,6 @@ export default {
           let params = this.$route.params;
           let Location = { query, ...location, params };
           this.$router.push(Location);
-          console.log(Location);
         }
 
         // //整理完参数 进行合并
@@ -181,12 +179,27 @@ export default {
 <style lang="less" scoped>
 .type-nav {
   border-bottom: 2px solid #e1251b;
+  padding-bottom: 2px;
 
   .container {
     width: 1200px;
     margin: 0 auto;
     display: flex;
     position: relative;
+    .nav {
+      transition: all 0.4s linear;
+      a {
+        display: inline-block;
+        border-radius: 20px;
+        width: 100px;
+        text-align: center;
+        transition: all 0.4s linear;
+      }
+      a:hover {
+        background-color: #e1251b;
+        color: #fff;
+      }
+    }
 
     .all {
       width: 210px;
@@ -197,12 +210,13 @@ export default {
       color: #fff;
       font-size: 14px;
       font-weight: bold;
+      border-radius: 20px;
     }
 
     .nav {
       a {
         height: 45px;
-        margin: 0 22px;
+        margin: 0 10px;
         line-height: 45px;
         font-size: 16px;
         color: #333;
@@ -215,54 +229,62 @@ export default {
       left: 0;
       top: 45px;
       width: 210px;
-      height: 461px;
+      height: 460px;
       position: absolute;
       background: #fafafa;
       z-index: 999;
+      border-radius: 40px;
+      margin-top: 6px;
+      border: 1px solid #e4e4e4;
 
       /*滚动条区域*/
       .all-sort-list2::-webkit-scrollbar {
-        width: 8px;
-        background-color: #fff;
-      }
-      /*滚动条*/
-      .all-sort-list2::-webkit-scrollbar-thumb {
-        background-color: #999;
-        border-radius: 10px;
+        display: none;
       }
       .all-sort-list2 {
         overflow-y: scroll;
-        height: 462px;
+        height: 450px;
+        padding-top: 4px;
+        border-radius: 40px;
+        text-align: center;
         .cur {
           background-color: skyblue;
-          border-radius: 15px;
+          border-radius: 10px;
+          border: 1px solid #e4e4e4;
         }
         .item {
           display: inline-block;
           transition: all 0.6s;
           width: 200px;
+          border-radius: 15px;
+          margin-top: 6px;
           h3 {
             line-height: 30px;
             font-size: 14px;
             font-weight: 400;
             padding: 0 20px;
             margin: 0;
+
             a {
               color: #333;
               text-decoration: none;
             }
           }
-
+          /*滚动条区域*/
+          .item-list::-webkit-scrollbar {
+            display: none;
+          }
           .item-list {
-            // display: none;
             position: absolute;
             width: 734px;
-            min-height: 460px;
+            height: 460px;
             background: #f7f7f7;
             left: 210px;
             border: 1px solid #ddd;
             top: 0;
             z-index: 9999 !important;
+            border-radius: 40px;
+            overflow-y: scroll;
             a:hover {
               color: #e1251b;
               font-size: 14px;

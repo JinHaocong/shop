@@ -1,7 +1,7 @@
 <!--
  * @Author: Jin Haocong
  * @Date: 2022-08-16 14:54:22
- * @LastEditTime: 2022-08-16 14:56:27
+ * @LastEditTime: 2022-08-18 01:18:33
 -->
 <template>
   <!-- 猜你喜欢 -->
@@ -105,6 +105,7 @@ export default {
         padding: 0 10px;
         box-sizing: border-box;
         display: flex;
+        border-radius: 40px;
 
         li {
           height: 250px;
@@ -132,7 +133,7 @@ export default {
           .like-text {
             padding: 0;
             width: 142px;
-            border-right: 1px solid #e4e4e4;
+            border-top: 1px solid #e4e4e4;
 
             p {
               margin: 5px 0;

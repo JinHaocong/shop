@@ -1,7 +1,7 @@
 <!--
  * @Author: Jin Haocong
  * @Date: 2022-08-16 14:42:47
- * @LastEditTime: 2022-08-16 14:44:45
+ * @LastEditTime: 2022-08-18 01:14:44
 -->
 <template>
   <!--今日推荐-->
@@ -48,6 +48,7 @@ export default {
       background-color: #eaeaea;
       margin: 10px 0;
       display: flex;
+      border-radius: 40px;
 
       .clock {
         width: 16.67%;
@@ -55,6 +56,7 @@ export default {
         color: #fff;
         font-size: 18px;
         text-align: center;
+        border-radius: 40px;
 
         .time {
           padding: 30px 0;
@@ -69,12 +71,14 @@ export default {
       }
 
       .banner {
-        width: 20.83%;
+        width: 20%;
+        margin-left: 10px;
 
         img {
           width: 100%;
           height: 100%;
           transition: all 400ms;
+          border-radius: 40px;
 
           &:hover {
             opacity: 0.8;

@@ -1,7 +1,7 @@
 <!--
  * @Author: Jin Haocong
  * @Date: 2022-08-16 11:12:59
- * @LastEditTime: 2022-08-17 10:38:50
+ * @LastEditTime: 2022-08-17 23:32:51
 -->
 <template>
   <header class="header">
@@ -144,6 +144,12 @@ export default {
       }
     },
   },
+  mounted() {
+    //通过 this.$bus.on 清除关键字
+    this.$bus.$on("clearKeyword", () => {
+      this.keyword = "";
+    });
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -206,6 +212,8 @@ export default {
     .searchArea {
       float: right;
       margin-top: 35px;
+      border-radius: 16px;
+      border: 2px solid #ea4a36;
 
       .searchForm {
         overflow: hidden;
@@ -215,8 +223,9 @@ export default {
           width: 490px;
           height: 32px;
           padding: 0px 4px;
-          border: 2px solid #ea4a36;
+          border: 2px solid white;
           float: left;
+          border-radius: 16px;
 
           &:focus {
             outline: none;
@@ -224,13 +233,16 @@ export default {
         }
 
         button {
-          height: 32px;
+          height: 28px;
           width: 68px;
           background-color: #ea4a36;
+          margin-top: 2px;
+          margin-right: 2px;
           border: none;
           color: #fff;
           float: left;
           cursor: pointer;
+          border-radius: 16px;
 
           &:focus {
             outline: none;

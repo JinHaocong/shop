@@ -1,10 +1,10 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-16 15:16:48
- * @LastEditTime: 2022-08-17 14:22:43
+ * @LastEditTime: 2022-08-17 14:22:55
  */
-
-/* 对于 axios 进行二次封装 */
+/* mock */
+// 对于 axios 进行二次封装
 import axios from "axios";
 
 //引入进度条
@@ -18,7 +18,7 @@ import 'nprogress/nprogress.css'
 const requests = axios.create({
     //配置对象
     //基础路径 发请求时路径会出现api
-    baseURL: '/api',
+    baseURL: '/mock',
     //代表请求超时时间
     timeout: 5000,
 })

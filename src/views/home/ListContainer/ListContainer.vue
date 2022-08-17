@@ -1,7 +1,7 @@
 <!--
  * @Author: Jin Haocong
  * @Date: 2022-08-16 14:34:44
- * @LastEditTime: 2022-08-16 14:41:23
+ * @LastEditTime: 2022-08-17 15:58:09
 -->
 <template>
   <!--列表-->
@@ -9,19 +9,11 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/banner1.jpg" />
-            </div>
-          </div>
-          <!-- 如果需要分页器 -->
-          <div class="swiper-pagination"></div>
-
-          <!-- 如果需要导航按钮 -->
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-        </div>
+        <common-carousel
+          :list="bannerList"
+          key="1"
+          :watchNow="false"
+        ></common-carousel>
       </div>
       <div class="right">
         <div class="news">
@@ -97,8 +89,55 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+//引入swiper
+import Swiper from "swiper/bundle";
+import "swiper/swiper-bundle.min.css";
+
 export default {
   name: "ListContainer",
+  components: {},
+
+  //mounted 组件挂载完毕
+  //为什么swiperzaimounted书写不可以，因为结构还不完整 数据没有请求回来并能进行渲染
+  mounted() {
+    //派发action 让仓库发起请求
+    this.$store.dispatch("getBannerList");
+  },
+
+  //获取到仓库数据
+  computed: {
+    ...mapState({
+      bannerList: (state) => state.home.getBannerList,
+    }),
+  },
+  watch: {
+    //监听bannerList数据的变化 [] => [*,*,*,*]
+    bannerList: {
+      immediate: true,
+      handler() {
+        //在 newsiwper之前 页面的解构必须要有 注意异步问题
+        //通过watch监听数据的变化，
+        //当前函数执行只能保证bannerList有数据，但是dom不一定渲染完
+
+        //当执行这个回到的时候数据已经渲染到dom上
+        this.$nextTick(() => {
+          new Swiper(this.$refs.jhc, {
+            loop: true, // 循环模式选项
+            autoplay: {
+              delay: 2500,
+              disableOnInteraction: false,
+            },
+            // 如果需要分页器
+            pagination: {
+              el: ".swiper-pagination",
+              clickable: true,
+            },
+          });
+        });
+      },
+    },
+  },
 };
 </script>
 

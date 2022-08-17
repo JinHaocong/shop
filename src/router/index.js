@@ -1,7 +1,7 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-16 11:41:25
- * @LastEditTime: 2022-08-16 14:11:50
+ * @LastEditTime: 2022-08-17 08:44:17
  */
 import Vue from "vue";
 import VueRouter from "vue-router";
@@ -48,6 +48,7 @@ export default new VueRouter({
         {
             path: '/home',
             component: Home,
+            name: 'home',
             meta: {
                 show: true
             }

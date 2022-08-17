@@ -1,7 +1,7 @@
 <!--
  * @Author: Jin Haocong
  * @Date: 2022-08-16 10:37:40
- * @LastEditTime: 2022-08-16 12:17:18
+ * @LastEditTime: 2022-08-17 13:16:24
 -->
 <template>
   <div id="app">
@@ -20,6 +20,10 @@ export default {
   components: {
     Header,
     Footer,
+  },
+  mounted() {
+    //通知Vuex发请求,获取数据,储存在仓库中
+    this.$store.dispatch("categoryList");
   },
 };
 </script>

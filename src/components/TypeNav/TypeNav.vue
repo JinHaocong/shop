@@ -1,68 +1,73 @@
 <!--
  * @Author: Jin Haocong
  * @Date: 2022-08-16 14:24:47
- * @LastEditTime: 2022-08-16 23:38:48
+ * @LastEditTime: 2022-08-17 10:26:30
 -->
 <template>
   <!-- 商品分类导航 -->
   <div class="type-nav">
     <div class="container">
-      <!-- 时间委派 -->
-      <div @mouseleave="cleanIndex">
+      <!-- 事件委派 -->
+      <div @mouseleave="cleanIndex" @mouseenter="enterShow">
         <h2 class="all">全部商品分类</h2>
         <!-- 三级联动 -->
-        <div class="sort">
-          <!-- 利用事物委托和编程式导航进行路由跳转 -->
-          <div class="all-sort-list2" @click="goSearch">
-            <!-- 遍历一级分类 -->
-            <div
-              class="item"
-              v-for="(c1, index) in categoryList"
-              :key="c1.categoryId"
-              :class="currentIndex === index ? 'cur' : ''"
-            >
-              <h3 @mouseenter="changeIndex(index)">
-                <a
-                  :data-categoryName="c1.categoryName"
-                  :data-category1Id="c1.categoryId"
-                  >{{ c1.categoryName }}</a
-                >
-              </h3>
-              <!-- 三级分类 -->
+        <!-- 过渡动画 -->
+        <transition name="sort">
+          <div class="sort" v-show="show">
+            <!-- 利用事物委托和编程式导航进行路由跳转 -->
+            <div class="all-sort-list2" @click="goSearch">
+              <!-- 遍历一级分类 -->
               <div
-                class="item-list clearfix"
-                :style="{ display: currentIndex === index ? 'block' : 'none' }"
+                class="item"
+                v-for="(c1, index) in categoryList"
+                :key="c1.categoryId"
+                :class="currentIndex === index ? 'cur' : ''"
               >
-                <!-- 遍历二级分类 -->
+                <h3 @mouseenter="changeIndex(index)">
+                  <a
+                    style="cursor: pointer"
+                    :data-categoryName="c1.categoryName"
+                    :data-category1Id="c1.categoryId"
+                    >{{ c1.categoryName }}</a
+                  >
+                </h3>
                 <div
-                  class="subitem"
-                  v-for="c2 in c1.categoryChild"
-                  :key="c2.categoryId"
+                  class="item-list clearfix"
+                  v-show="currentIndex === index ? true : false"
                 >
-                  <dl class="fore">
-                    <!-- 遍历三级分类  -->
-                    <dt>
-                      <a
-                        :data-categoryName="c2.categoryName"
-                        :data-category2Id="c2.categoryId"
-                        >{{ c2.categoryName }}</a
-                      >
-                    </dt>
-                    <dd>
-                      <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
+                  <!-- 遍历二级分类 -->
+                  <div
+                    class="subitem"
+                    v-for="c2 in c1.categoryChild"
+                    :key="c2.categoryId"
+                  >
+                    <dl class="fore">
+                      <!-- 遍历三级分类  -->
+                      <dt>
                         <a
-                          :data-categoryName="c3.categoryName"
-                          :data-category3Id="c3.categoryId"
-                          >{{ c3.categoryName }}</a
+                          style="cursor: pointer"
+                          :data-categoryName="c2.categoryName"
+                          :data-category2Id="c2.categoryId"
+                          >{{ c2.categoryName }}</a
                         >
-                      </em>
-                    </dd>
-                  </dl>
+                      </dt>
+                      <dd>
+                        <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
+                          <a
+                            style="cursor: pointer"
+                            :data-categoryName="c3.categoryName"
+                            :data-category3Id="c3.categoryId"
+                            >{{ c3.categoryName }}</a
+                          >
+                        </em>
+                      </dd>
+                    </dl>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </transition>
       </div>
       <nav class="nav">
         <a href="###">服装城</a>
@@ -92,13 +97,16 @@ export default {
     return {
       //存储用户鼠标移上哪一个一级分类
       currentIndex: -1,
+      show: true,
     };
   },
 
   //组件挂载完毕,向服务器发起请求
   mounted() {
-    //通知Vuex发请求,获取数据,储存在仓库中
-    this.$store.dispatch("categoryList");
+    //当组件挂载完毕 判断是在那个页面
+    if (this.$route.name !== "home") {
+      this.show = false;
+    }
   },
   computed: {
     //对象写法
@@ -117,6 +125,9 @@ export default {
 
     cleanIndex() {
       this.currentIndex = -1;
+      if (this.$route.name !== "home") {
+        this.show = false;
+      }
     },
 
     //进行路由跳转的方法
@@ -145,11 +156,23 @@ export default {
         } else if (category3id) {
           query.category3Id = category3id;
         }
-        //整理完参数 进行合并
-        // console.log({ query, ...location });
-        let Location = { query, ...location };
-        this.$router.push(Location);
+        //如果路由跳转的时候带有params参数，也要进行传递
+        if (this.$route.params) {
+          let params = this.$route.params;
+          let Location = { query, ...location, params };
+          this.$router.push(Location);
+          console.log(Location);
+        }
+
+        // //整理完参数 进行合并
+        // // console.log({ query, ...location });
+        // let Location = { query, ...location };
+        // this.$router.push(Location);
       }
+    },
+    //当鼠标移入的时候让商品列表进行展示
+    enterShow() {
+      this.show = true;
     },
   },
 };
@@ -197,28 +220,33 @@ export default {
       background: #fafafa;
       z-index: 999;
 
+      /*滚动条区域*/
       .all-sort-list2::-webkit-scrollbar {
-        width: 20px;
+        width: 8px;
         background-color: #fff;
+      }
+      /*滚动条*/
+      .all-sort-list2::-webkit-scrollbar-thumb {
+        background-color: #999;
+        border-radius: 10px;
       }
       .all-sort-list2 {
         overflow-y: scroll;
         height: 462px;
         .cur {
           background-color: skyblue;
-          border-radius: 20px;
+          border-radius: 15px;
         }
         .item {
           display: inline-block;
-          transition: all 0.7s;
-          width: 180px;
+          transition: all 0.6s;
+          width: 200px;
           h3 {
             line-height: 30px;
             font-size: 14px;
             font-weight: 400;
             padding: 0 20px;
             margin: 0;
-
             a {
               color: #333;
               text-decoration: none;
@@ -226,7 +254,7 @@ export default {
           }
 
           .item-list {
-            display: none;
+            // display: none;
             position: absolute;
             width: 734px;
             min-height: 460px;
@@ -235,7 +263,10 @@ export default {
             border: 1px solid #ddd;
             top: 0;
             z-index: 9999 !important;
-
+            a:hover {
+              color: #e1251b;
+              font-size: 14px;
+            }
             .subitem {
               float: left;
               width: 650px;
@@ -280,6 +311,30 @@ export default {
           }
         }
       }
+    }
+    //过渡动画样式
+    //动画开始状态 (进入)
+    .sort-enter {
+      height: 0px;
+      opacity: 0;
+    }
+    //动画结束状态 (进入)
+    .sort-enter-to {
+      height: 461px;
+    }
+    //定义动画事件
+    .sort-enter-active {
+      transition: all 0.2s linear;
+    }
+    .sort-leave {
+      height: 461px;
+      opacity: 1;
+    }
+    .sort-leave-to {
+      height: 0;
+    }
+    .sort-leave-active {
+      transition: all 0.2s linear;
     }
   }
 }

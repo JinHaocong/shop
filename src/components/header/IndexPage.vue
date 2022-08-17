@@ -1,7 +1,7 @@
 <!--
  * @Author: Jin Haocong
  * @Date: 2022-08-16 11:12:59
- * @LastEditTime: 2022-08-16 13:25:12
+ * @LastEditTime: 2022-08-17 10:38:50
 -->
 <template>
   <header class="header">
@@ -66,7 +66,7 @@ export default {
   methods: {
     goSearch() {
       //搜索按钮的回调函数 向/search跳转
-      this.$router.push("/search");
+      // this.$router.push("/search");
 
       // 路由传参
       // 1.字符串形式
@@ -121,15 +121,27 @@ export default {
       // });
 
       //面试题4: 路由组件能不能传递props数据  可以 有三种写法
-      this.$router.push({
-        name: "search",
-        params: {
-          keyword: this.keyword,
-        },
-        query: {
-          k: this.keyword.toUpperCase(),
-        },
-      });
+      // this.$router.push({
+      //   name: "search",
+      //   params: {
+      //     keyword: this.keyword || undefined,
+      //   },
+      //   query: {
+      //     big: this.keyword.toUpperCase(),
+      //   },
+      // });
+
+      //如果有query参数 也带进去
+      if (this.$route.query) {
+        let Location = {
+          name: "search",
+          params: {
+            keyword: this.keyword || undefined,
+          },
+          query: this.$route.query,
+        };
+        this.$router.push(Location);
+      }
     },
   },
 };

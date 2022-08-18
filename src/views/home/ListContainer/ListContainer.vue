@@ -1,7 +1,7 @@
 <!--
  * @Author: Jin Haocong
  * @Date: 2022-08-16 14:34:44
- * @LastEditTime: 2022-08-18 01:20:33
+ * @LastEditTime: 2022-08-18 08:42:04
 -->
 <template>
   <!--列表-->
@@ -12,7 +12,6 @@
         <common-carousel
           class="swiper"
           :list="bannerList"
-          key="1"
           :watchNow="false"
         ></common-carousel>
       </div>

@@ -26,34 +26,53 @@
               {{ searchParams.trademark.split(":")[1]
               }}<i @click="removeTrademark">×</i>
             </li>
+            <!-- 平台属性面包屑 -->
+            <li
+              class="with-x"
+              v-for="(attrValue, index) in searchParams.props"
+              :key="index"
+            >
+              {{ attrValue.split(":")[1] }} <i @click="removeAttr(index)">×</i>
+            </li>
           </ul>
         </div>
 
         <!--selector-->
-        <search-selector @getTrademarkInfo="TrademarkInfo"></search-selector>
+        <search-selector
+          @getTrademarkInfo="TrademarkInfo"
+          @getAttrInfo="attrInfo"
+        ></search-selector>
 
         <!--details-->
         <div class="details clearfix">
           <div class="sui-navbar">
             <div class="navbar-inner filter">
+              <!-- 排序解构 -->
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <!-- 动态添加class -->
+                <li :class="{ active: isOne }" @click="changeOrder('1')">
+                  <a
+                    >综合<span
+                      v-show="isOne"
+                      class="iconfont"
+                      :class="{
+                        'icon-xiangshangjiantoucuxiao': isAsc,
+                        'icon-xiangxiajiantoucuxiao': isDesc,
+                      }"
+                    ></span
+                  ></a>
                 </li>
-                <li>
-                  <a href="#">销量</a>
-                </li>
-                <li>
-                  <a href="#">新品</a>
-                </li>
-                <li>
-                  <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                <li :class="{ active: isTwo }" @click="changeOrder('2')">
+                  <a
+                    >价格<span
+                      v-show="isTwo"
+                      class="iconfont"
+                      :class="{
+                        'icon-xiangshangjiantoucuxiao': isAsc,
+                        'icon-xiangxiajiantoucuxiao': isDesc,
+                      }"
+                    ></span
+                  ></a>
                 </li>
               </ul>
             </div>
@@ -156,8 +175,8 @@ export default {
         categoryName: "",
         //关键字
         keyword: "",
-        //排序
-        order: "",
+        //排序 初始状态因该是综合降序
+        order: "1:desc",
         //分页器 当前页数
         pageNo: 1,
         //分页器 一页几个
@@ -192,6 +211,24 @@ export default {
   computed: {
     //mapGetters 里面的写法 传递的是数组
     ...mapGetters(["goodsList"]),
+
+    //判断排序是1 还是 2
+    isOne() {
+      return this.searchParams.order.indexOf("1") !== -1;
+    },
+
+    isTwo() {
+      return this.searchParams.order.indexOf("2") !== -1;
+    },
+
+    //判断升序还是降序
+    isAsc() {
+      return this.searchParams.order.indexOf("asc") !== -1;
+    },
+
+    isDesc() {
+      return this.searchParams.order.indexOf("desc") !== -1;
+    },
   },
   methods: {
     //向服务器发请求获取search模块的数据
@@ -249,6 +286,46 @@ export default {
     //移除品牌
     removeTrademark() {
       this.searchParams.trademark = undefined;
+      this.getData();
+    },
+
+    //收集平台属性 的自定义事件
+    attrInfo(attr, attrValue) {
+      //整理参数格式
+      let props = `${attr.attrId}:${attrValue}:${attr.attrName}`;
+
+      //数组去重
+      if (this.searchParams.props.indexOf(props) === -1) {
+        this.searchParams.props.push(props);
+      }
+
+      //再次发送请求
+      this.getData();
+    },
+
+    //移除面包屑 平台属性
+    removeAttr(index) {
+      this.searchParams.props.splice(index, 1);
+      this.getData();
+      console.log(typeof this.searchParams.order);
+    },
+
+    //点击排序操作 flag 代表 你点击的是综合还是价格
+    changeOrder(flag) {
+      let originFlag = this.searchParams.order.split(":")[0];
+      let originSort = this.searchParams.order.split(":")[1];
+
+      //准备一个新order属性
+      let newOrder = "";
+      //确定点击的是综合
+      if (flag === originFlag) {
+        newOrder = `${originFlag}:${originSort == "desc" ? "asc" : "desc"}`;
+      } else {
+        //点击的是价格
+        newOrder = `${flag}:${"desc"}`;
+      }
+
+      this.searchParams.order = newOrder;
       this.getData();
     },
   },
@@ -374,6 +451,10 @@ export default {
             display: block;
             float: left;
             margin: 0 10px 0 0;
+            img {
+              height: 10px;
+              width: 10px;
+            }
 
             li {
               float: left;

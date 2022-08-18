@@ -1,7 +1,7 @@
 <!--
  * @Author: Jin Haocong
  * @Date: 2022-08-16 11:12:59
- * @LastEditTime: 2022-08-17 23:32:51
+ * @LastEditTime: 2022-08-18 09:12:04
 -->
 <template>
   <header class="header">
@@ -9,12 +9,12 @@
     <div class="top">
       <div class="container">
         <div class="loginList">
-          <p>尚品汇欢迎您！</p>
+          <p>聪聪商城欢迎您！</p>
           <p>
-            <span>请</span>
+            <span>请 </span>
             <!-- 声明式导航，务必要有 to -->
-            <router-link to="/login">登录</router-link>
-            <router-link to="/register">免费注册</router-link>
+            <router-link to="/login">登录 |</router-link>
+            <router-link to="/register"> 免费注册</router-link>
           </p>
         </div>
         <div class="typeList">
@@ -203,7 +203,7 @@ export default {
 
       .logo {
         img {
-          width: 175px;
+          width: 100px;
           margin: 25px 45px;
         }
       }
@@ -211,7 +211,7 @@ export default {
 
     .searchArea {
       float: right;
-      margin-top: 35px;
+      margin-top: 70px;
       border-radius: 16px;
       border: 2px solid #ea4a36;
 

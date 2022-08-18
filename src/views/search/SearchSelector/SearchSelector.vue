@@ -19,11 +19,17 @@
         <a href="javascript:void(0);">更多</a>
       </div>
     </div>
-    <div class="type-wrap" v-for="attr in attrsList" :key="attr.id">
+    <!-- 平台售卖属性的地方 -->
+    <div class="type-wrap" v-for="attr in attrsList" :key="attr.attrId">
       <div class="fl key">{{ attr.attrName }}</div>
       <div class="fl value">
         <ul class="type-list">
-          <li v-for="(attrValue, index) in attr.attrValueList" :key="index">
+          <!-- 平台售卖的属性值 -->
+          <li
+            v-for="(attrValue, index) in attr.attrValueList"
+            :key="index"
+            @click="attrClick(attr, attrValue)"
+          >
             <a>{{ attrValue }}</a>
           </li>
         </ul>
@@ -46,6 +52,10 @@ export default {
       //点击了品牌，需要整理参数，向服务器发请求获取相应数据
       //点击后要在父组件进行发送请求 ，子组件需要把点击的信息传给父组件  用自定义事件
       this.$emit("getTrademarkInfo", mark);
+    },
+    attrClick(attr, attrValue) {
+      //平台售卖属性值的点击事件
+      this.$emit("getAttrInfo", attr, attrValue);
     },
   },
 };

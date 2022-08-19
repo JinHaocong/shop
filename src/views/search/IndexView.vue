@@ -83,9 +83,10 @@
               <li class="yui3-u-1-5" v-for="good in goodsList" :key="good.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="item.html" target="_blank"
+                    <!-- 路由跳转时别忘记带id -->
+                    <router-link :to="`/detail/${good.id}`"
                       ><img :src="good.defaultImg"
-                    /></a>
+                    /></router-link>
                   </div>
                   <div class="price">
                     <strong>
@@ -94,11 +95,10 @@
                     </strong>
                   </div>
                   <div class="attr">
-                    <a
-                      target="_blank"
-                      href="item.html"
+                    <router-link
+                      :to="`/detail/${good.id}`"
                       title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】"
-                      >{{ good.title }}</a
+                      >{{ good.title }}</router-link
                     >
                   </div>
                   <div class="commit">
@@ -119,36 +119,14 @@
               </li>
             </ul>
           </div>
-          <!-- 分页 -->
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
+          <!-- 分页器 -->
+          <common-pagination
+            :pageNo="searchParams.pageNo"
+            :pageSize="searchParams.pageSize"
+            :total="total"
+            :continues="5"
+            @getPage="getPageNumber"
+          ></common-pagination>
         </div>
       </div>
     </div>
@@ -156,7 +134,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import CommonPagination from "@/components/Pagination/CommonPagination.vue";
+import { mapGetters, mapState } from "vuex";
 import SearchSelector from "./SearchSelector/SearchSelector";
 
 export default {
@@ -180,7 +159,7 @@ export default {
         //分页器 当前页数
         pageNo: 1,
         //分页器 一页几个
-        pageSize: 20,
+        pageSize: 12,
         //平台售卖属性操作所带的属性
         props: [],
         //品牌
@@ -190,6 +169,7 @@ export default {
   },
   components: {
     SearchSelector,
+    CommonPagination,
   },
   //组件挂在之前执行一次，比mounted早 在这里进行对searchParams数据更改
   beforeMount() {
@@ -229,6 +209,10 @@ export default {
     isDesc() {
       return this.searchParams.order.indexOf("desc") !== -1;
     },
+
+    ...mapState({
+      total: (state) => state.search.searchList.total,
+    }),
   },
   methods: {
     //向服务器发请求获取search模块的数据
@@ -326,6 +310,13 @@ export default {
       }
 
       this.searchParams.order = newOrder;
+      this.getData();
+    },
+
+    //自定义事件 子给父通信
+    getPageNumber(pageNo) {
+      //整理参数 发请求
+      this.searchParams.pageNo = pageNo;
       this.getData();
     },
   },
@@ -486,26 +477,34 @@ export default {
         ul {
           display: flex;
           flex-wrap: wrap;
+          justify-content: space-around;
 
           li {
             height: 100%;
-            width: 20%;
-            margin-top: 10px;
+            width: 25%;
+            margin: 25px 10px;
             line-height: 28px;
+            text-align: center;
 
             .list-wrap {
+              background-color: #f4f4f4;
+              border-radius: 40px;
+              box-sizing: border-box;
+              transition: all 0.3s linear;
               .p-img {
-                padding-left: 15px;
+                margin: 0 auto;
                 width: 215px;
-                height: 255px;
-
+                height: 240px;
+                line-height: 240px;
+                text-align: center;
                 a {
                   color: #666;
 
                   img {
-                    max-width: 100%;
-                    height: auto;
+                    width: 200px;
+                    height: 200px;
                     vertical-align: middle;
+                    border-radius: 40px;
                   }
                 }
               }
@@ -598,6 +597,12 @@ export default {
                   }
                 }
               }
+            }
+            .list-wrap:hover {
+              background-color: white;
+              box-sizing: border-box;
+              /* x 偏移量 | y 偏移量 | 阴影模糊半径 | 阴影扩散半径 | 阴影颜色 */
+              box-shadow: 3px 3px 4px 5px rgb(163, 163, 163);
             }
           }
         }

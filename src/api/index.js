@@ -1,12 +1,13 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-16 15:30:01
- * @LastEditTime: 2022-08-17 19:11:23
+ * @LastEditTime: 2022-08-18 21:41:05
  */
 /* 
 当前模块: 所有的API 接口进行统一管理 */
 import requests from "./request";
 import mockRequests from './mockRequest'
+
 
 //三级联动请求接口
 //  /api/product/getBaseCategoryList  get 无参数
@@ -37,4 +38,10 @@ export const reqGetSearchInfo = (params) => requests({
     url: '/list',
     method: 'post',
     data: params
+})
+
+//获取商品详情接口
+export const reqGetDetailInfo = (skuId) => requests({
+    url: `/item/${skuId}`,
+    method: 'get'
 })

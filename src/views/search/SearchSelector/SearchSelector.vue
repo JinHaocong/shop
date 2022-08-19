@@ -30,7 +30,7 @@
             :key="index"
             @click="attrClick(attr, attrValue)"
           >
-            <a>{{ attrValue }}</a>
+            <a style="cursor: pointer">{{ attrValue }}</a>
           </li>
         </ul>
       </div>
@@ -130,6 +130,7 @@ export default {
         }
         li:hover {
           border-radius: 50px;
+          box-shadow: 2px 2px 3px 1px rgb(194, 194, 194);
         }
       }
 
@@ -143,6 +144,11 @@ export default {
           a {
             text-decoration: none;
             color: #666;
+            transition: all 0.3s linear;
+            border-radius: 5px;
+          }
+          a:hover {
+            box-shadow: 2px 2px 3px 1px rgb(171, 171, 171);
           }
         }
       }

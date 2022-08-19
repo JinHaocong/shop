@@ -1,7 +1,7 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-16 16:03:04
- * @LastEditTime: 2022-08-16 16:41:39
+ * @LastEditTime: 2022-08-18 21:27:14
  */
 
 import Vue from "vue";
@@ -12,6 +12,7 @@ Vue.use(Vuex)
 //引入小仓库
 import home from './home'
 import search from "./search";
+import detail from './detail'
 
 /* //state:仓库存储数据
 const state = {
@@ -51,6 +52,7 @@ export default new Vuex.Store({
     //模块化
     modules: {
         home,
-        search
+        search,
+        detail
     }
 })

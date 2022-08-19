@@ -1,17 +1,14 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-16 11:41:25
- * @LastEditTime: 2022-08-17 08:44:17
+ * @LastEditTime: 2022-08-18 21:18:02
  */
 import Vue from "vue";
 import VueRouter from "vue-router";
 
+//重新引入模块化的路由
+import routes from './routes'
 Vue.use(VueRouter)
-
-import Home from '@/views/home/IndexView'
-import Search from '@/views/search/IndexView'
-import Login from '@/views/login/IndexView'
-import Register from '@/views/register/IndexView'
 
 //先把VueRouter原型对象的push保存一份
 let originPush = VueRouter.prototype.push
@@ -44,61 +41,13 @@ VueRouter.prototype.replace = function (location, resolve, reject) {
 
 
 export default new VueRouter({
-    routes: [
-        {
-            path: '/home',
-            component: Home,
-            name: 'home',
-            meta: {
-                show: true
-            }
-        },
-        {
-            path: '/search/:keyword?',
-            component: Search,
-            name: 'search',
-            meta: {
-                show: true
-            },
-            // 面试题4: 路由组件能不能传递props数据  可以 有三种写法
-            // 布尔值写法: 只能传params
-            // props: true
 
-            // 对象写法;额外的给路由组件传递一些props
-            // props: {
-            //     a: 1,
-            //     b: 2
-            // }
+    routes,
 
-            // 函数写法: 可params参数,query参数, 通过props传给组件
-            // props: ($route) => {
-            //     return {
-            //         keyword: $route.params.keyword,
-            //         k: $route.query.k
-            //     }
-            // }
-
-        },
-        {
-            path: '/login',
-            component: Login,
-            meta: {
-                show: false
-            }
-        },
-        {
-            path: '/register',
-            component: Register,
-            meta: {
-                show: false
-            }
-        },
-        {
-            //重定向
-            path: '*',
-            redirect: '/home'
-        }
-    ]
-
+    //路由 滚动行为
+    scrollBehavior() {
+        //返回的 y=0 表示滚动到最上面
+        return { y: 0 };
+    }
 
 })

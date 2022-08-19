@@ -1,7 +1,7 @@
 <!--
  * @Author: Jin Haocong
  * @Date: 2022-08-16 14:34:44
- * @LastEditTime: 2022-08-18 08:42:04
+ * @LastEditTime: 2022-08-19 01:04:50
 -->
 <template>
   <!--列表-->
@@ -13,6 +13,7 @@
           class="swiper"
           :list="bannerList"
           :watchNow="false"
+          :el="`myswiper`"
         ></common-carousel>
       </div>
       <div class="right">

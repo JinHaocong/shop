@@ -1,25 +1,33 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-16 10:37:40
- * @LastEditTime: 2022-08-17 23:39:54
+ * @LastEditTime: 2022-08-18 15:46:29
  */
 import Vue from 'vue'
 import App from './App.vue'
+
 //引入路由
 import router from '@/router'
+
 //引入仓库
 import store from './store'
-//三级联动 全局组件
+
+//全局组件
 import TypeNav from '@/components/TypeNav/TypeNav.vue'
 import CommonCarousel from '@/components/Carousel/CommonCarousel.vue'
+import CommonPagination from '@/components/Pagination/CommonPagination.vue'
+
 //引入mockServe.js
 import '@/mock/mocksServe'
+
 //引入swiper样式
 import "swiper/swiper-bundle.min.css";
-//第一个参数:全局组件的名字
-//第二个参数:哪一个组件
+
+//第一个参数:全局组件的名字 第二个参数:哪一个组件
 Vue.component(TypeNav.name, TypeNav)
 Vue.component(CommonCarousel.name, CommonCarousel)
+Vue.component(CommonPagination.name, CommonPagination)
+
 Vue.config.productionTip = false
 
 //此时的Vue 还没实例化 所以 undefined

@@ -32,6 +32,7 @@
               <common-carousel
                 :list="list.carouselList"
                 :watchNow="true"
+                :el="`myswiper${list.id}`"
               ></common-carousel>
             </div>
             <div class="split">

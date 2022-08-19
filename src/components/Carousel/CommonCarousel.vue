@@ -1,7 +1,7 @@
 <!--
  * @Author: Jin Haocong
  * @Date: 2022-08-17 15:39:03
- * @LastEditTime: 2022-08-19 01:11:29
+ * @LastEditTime: 2022-08-19 08:37:59
 -->
 <template>
   <!-- v-if 来解决多次初始化swiper问题 -->
@@ -31,7 +31,6 @@ export default {
       immediate: true,
       handler() {
         this.$nextTick(() => {
-          console.log("111111111");
           new Swiper(`.${this.el}`, {
             loop: true, // 循环模式选项
             autoplay: {

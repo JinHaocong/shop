@@ -102,12 +102,23 @@
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt" />
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input
+                  autocomplete="off"
+                  class="itxt"
+                  v-model="skuNumber"
+                  @change="changeSkuNumber"
+                />
+                <a href="javascript:" class="plus" @click="skuNumber++">+</a>
+                <a
+                  href="javascript:"
+                  class="mins"
+                  @click="skuNumber > 1 ? skuNumber-- : (skuNumber = 1)"
+                  >-</a
+                >
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <!-- 以前的路由跳转 是从a跳到b 这里的路由跳转之前还要发请求，把购买的产品发送给服务器，服务器进行存储 -->
+                <a @click="addShopCar(skuInfo.id, skuNumber)">加入购物车</a>
               </div>
             </div>
           </div>
@@ -348,7 +359,7 @@
 import TypeNav from "@/components/TypeNav/TypeNav.vue";
 import ZoomTool from "./Zoom/ZoomTool";
 import ImageList from "./ImageList/ImageList.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "DetailView",
@@ -357,12 +368,21 @@ export default {
     ZoomTool,
     TypeNav,
   },
+  data() {
+    return {
+      //购买产品的个数
+      skuNumber: 1,
+    };
+  },
   mounted() {
     //派发action
     this.$store.dispatch("getGoodInfo", this.$route.params.skuId);
   },
   computed: {
     ...mapGetters(["categoryView", "skuInfo", "spuSaleAttrList"]),
+    ...mapState({
+      ShopCarResultCode: (state) => state.detail.shopCarResultInfo.code,
+    }),
   },
   methods: {
     //产品售卖属性值切换高亮
@@ -371,6 +391,38 @@ export default {
         item.isChecked = 0;
       });
       saleValue.isChecked = 1;
+    },
+
+    //表单元素修改产品个数
+    changeSkuNumber(evt) {
+      let value = evt.target.value * 1;
+      //如果用户输入进来的不是数字
+      if (isNaN(value) || value < 1) {
+        this.skuNumber = 1;
+      } else {
+        this.skuNumber = parseInt(value);
+      }
+    },
+
+    //加入购物车
+    async addShopCar(skuId, skuNumber) {
+      try {
+        await this.$store.dispatch("addUpdateShopCar", {
+          skuId,
+          skuNumber,
+        });
+        //路由跳转 并将产品的信息带过去
+        //一些简单的数据可以通过querry通过路由传过去 复杂的数据就要进行会话存储 session
+        sessionStorage.setItem("SUKINFO", JSON.stringify(this.skuInfo));
+        this.$router.push({
+          name: "addcarsuccess",
+          query: {
+            skuNumber: this.skuNumber,
+          },
+        });
+      } catch (error) {
+        console.log(error.messgae);
+      }
     },
   },
 };
@@ -553,6 +605,7 @@ export default {
                 float: left;
                 border-right: 0;
                 text-align: center;
+                outline: none;
               }
 
               .plus,
@@ -590,6 +643,15 @@ export default {
                 height: 36px;
                 line-height: 36px;
                 display: block;
+                text-decoration: none;
+                border-radius: 18px;
+                transition: all 0.2s linear;
+              }
+              a:hover {
+                color: #e1251b;
+                background-color: white;
+                cursor: pointer;
+                box-shadow: 1px 1px 2px 1px gray;
               }
             }
           }

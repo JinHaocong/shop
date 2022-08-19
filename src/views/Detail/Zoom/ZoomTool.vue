@@ -1,17 +1,17 @@
 <!--
  * @Author: Jin Haocong
  * @Date: 2022-08-18 20:45:49
- * @LastEditTime: 2022-08-18 23:52:56
+ * @LastEditTime: 2022-08-19 09:43:36
 -->
 <template>
   <!-- 放大镜模块 -->
   <div class="spec-preview">
-    <img :src="skuImageList[0].imgUrl" />
-    <div class="event"></div>
+    <img :src="imgObj.imgUrl" />
+    <div class="event" @mousemove="handelMove"></div>
     <div class="big">
-      <img :src="skuImageList[0].imgUrl" />
+      <img :src="imgObj.imgUrl" ref="big" />
     </div>
-    <div class="mask"></div>
+    <div class="mask" ref="mask"></div>
   </div>
 </template>
 
@@ -19,6 +19,45 @@
 export default {
   name: "ZoomTool",
   props: ["skuImageList"],
+  data() {
+    return {
+      currentIndex: 0,
+    };
+  },
+  computed: {
+    imgObj() {
+      return this.skuImageList[this.currentIndex];
+    },
+  },
+  mounted() {
+    //通过全局事件总线获取兄弟组件传来的当前索引值
+    this.$bus.$on("getCurrentIndex", (index) => {
+      this.currentIndex = index;
+    });
+  },
+
+  methods: {
+    //默认会有个形参
+    handelMove(evt) {
+      //evt是图片展示区域 mask是放大镜绿色区域
+      let mask = this.$refs.mask;
+      let big = this.$refs.big;
+      let left = evt.offsetX - mask.offsetWidth / 2;
+      let top = evt.offsetY - mask.offsetHeight / 2;
+      //约束范围
+      if (left <= 0) left = 0;
+      if (left >= mask.offsetWidth) left = mask.offsetWidth;
+      if (top <= 0) top = 0;
+      if (top >= mask.offsetHeight) top = mask.offsetHeight;
+      //修改放大镜区域的left 和 top值
+      mask.style.left = left + "px";
+      mask.style.top = top + "px";
+
+      //修改 被放大图片的position
+      big.style.left = -2 * left + "px";
+      big.style.top = -2 * top + "px";
+    },
+  },
 };
 </script>
 

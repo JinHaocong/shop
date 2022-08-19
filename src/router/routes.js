@@ -1,7 +1,7 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-18 21:11:37
- * @LastEditTime: 2022-08-18 21:46:00
+ * @LastEditTime: 2022-08-19 16:00:50
  */
 
 
@@ -12,6 +12,8 @@ import Search from '@/views/search/IndexView'
 import Login from '@/views/login/IndexView'
 import Register from '@/views/register/IndexView'
 import Detail from '@/views/Detail/IndexView'
+import AddCarSuccess from '@/views/AddCartSuccess/IndexView'
+import ShopCar from "@/views/ShopCar/IndexView"
 
 export default [
     {
@@ -56,6 +58,22 @@ export default [
             show: true
         }
 
+    },
+    {
+        path: "/addcarsuccess",
+        component: AddCarSuccess,
+        name: "addcarsuccess",
+        meta: {
+            show: true
+        }
+    },
+    {
+        path: "/shopcar",
+        component: ShopCar,
+        name: 'shopcar',
+        meta: {
+            show: true
+        }
     },
     {
         path: '/login',

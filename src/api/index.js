@@ -1,7 +1,7 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-16 15:30:01
- * @LastEditTime: 2022-08-18 21:41:05
+ * @LastEditTime: 2022-08-19 11:00:35
  */
 /* 
 当前模块: 所有的API 接口进行统一管理 */
@@ -44,4 +44,10 @@ export const reqGetSearchInfo = (params) => requests({
 export const reqGetDetailInfo = (skuId) => requests({
     url: `/item/${skuId}`,
     method: 'get'
+})
+
+//将产品添加到购物车或者更新某个购物车中某个产品的个数
+export const reqAddUpdateShopCar = (skuId, skuNum) => requests({
+    url: `/cart/addToCart/${skuId}/${skuNum}`,
+    method: 'post'
 })

@@ -1,13 +1,21 @@
 <!--
  * @Author: Jin Haocong
  * @Date: 2022-08-18 20:45:49
- * @LastEditTime: 2022-08-18 23:51:36
+ * @LastEditTime: 2022-08-19 09:05:24
 -->
 <template>
-  <div class="swiper-container jhc">
+  <div class="swiper-container jhc" v-if="skuImageList.length">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" v-for="slider in skuImageList" :key="slider.id">
-        <img :src="slider.imgUrl" />
+      <div
+        class="swiper-slide"
+        v-for="(slider, index) in skuImageList"
+        :key="slider.id"
+      >
+        <img
+          :src="slider.imgUrl"
+          :class="{ active: currentIndex == index }"
+          @click="changeCurrentIndex(index)"
+        />
       </div>
     </div>
     <div class="swiper-button-next"></div>
@@ -19,17 +27,29 @@
 import Swiper from "swiper";
 export default {
   name: "ImageList",
+  data() {
+    return {
+      currentIndex: 0,
+    };
+  },
   props: ["skuImageList"],
+  methods: {
+    changeCurrentIndex(index) {
+      this.currentIndex = index;
+      //通过全局事件总线通知兄弟组件当前点击的索引值
+      this.$bus.$emit("getCurrentIndex", index);
+    },
+  },
   watch: {
+    //watch监听能保证数据是一定会来的 但是不能保证 v-for循环结束
     skuImageList: {
       handler() {
         this.$nextTick(() => {
-          new Swiper(this.$refs.myswiper, {
-            loop: true, // 循环模式选项
-            autoplay: {
-              delay: 2500,
-              disableOnInteraction: false,
-            },
+          new Swiper(".jhc", {
+            slidesPerView: 3,
+            slidesPerGroup: 1,
+            spaceBetween: 10,
+            centeredSlides: true,
             // 如果需要分页器
             pagination: {
               el: ".swiper-pagination",
@@ -68,15 +88,13 @@ export default {
       width: 50px;
       height: 50px;
       display: block;
+      border-radius: 10px;
 
       &.active {
         border: 2px solid #f60;
         padding: 1px;
-      }
-
-      &:hover {
-        border: 2px solid #f60;
-        padding: 1px;
+        border-radius: 10px;
+        box-shadow: 1px 1px 2px 1px rgb(198, 198, 198);
       }
     }
   }

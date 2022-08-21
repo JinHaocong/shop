@@ -1,7 +1,7 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-16 10:37:40
- * @LastEditTime: 2022-08-21 21:16:40
+ * @LastEditTime: 2022-08-21 22:20:43
  */
 import Vue from 'vue'
 import App from './App.vue'
@@ -32,7 +32,7 @@ Vue.prototype.$alert = MessageBox.alert;
 //引入懒加载插件
 import VueLazyload from 'vue-lazyload'
 //引入默认图片
-import logo from '@/assets/logo.png'
+import logo from '@/assets/images/logo.png'
 Vue.use(VueLazyload, {
   //懒加载默认图片
   loading: logo

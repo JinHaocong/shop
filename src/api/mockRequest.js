@@ -1,11 +1,13 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-16 15:16:48
- * @LastEditTime: 2022-08-17 14:22:55
+ * @LastEditTime: 2022-08-19 19:33:15
  */
 /* mock */
 // 对于 axios 进行二次封装
 import axios from "axios";
+
+
 
 //引入进度条
 import nprogress from 'nprogress'

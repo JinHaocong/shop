@@ -1,10 +1,11 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-16 11:41:25
- * @LastEditTime: 2022-08-18 21:18:02
+ * @LastEditTime: 2022-08-21 19:42:12
  */
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from "@/store";
 
 //重新引入模块化的路由
 import routes from './routes'
@@ -38,9 +39,7 @@ VueRouter.prototype.replace = function (location, resolve, reject) {
     }
 }
 
-
-
-export default new VueRouter({
+let router = new VueRouter({
 
     routes,
 
@@ -51,3 +50,49 @@ export default new VueRouter({
     }
 
 })
+
+//全局前置守卫
+//to;   可以获取到你要跳转到的那个路由的信息
+//from; 可以获取到你从哪个路由而来的信息
+//next； 放行
+router.beforeEach(async (to, from, next) => {
+    // next()
+    //netx('/shopcar') 放行到指定路由
+    //next(false) 终端当前的导航，如果浏览器的URL改变了，那么URL地址会重置到 from‘路由对应的地址
+    let token = store.state.user.token
+    let name = store.state.user.userInfo.name
+    if (token) {
+        //用户已经登陆 禁止再次跳到登陆界面
+        if (to.path == '/login') {
+            next(false)
+        } else {
+            //这里是除了登录界面的所有界面
+            if (name) {
+                //有用户信息 放行 
+                next()
+            } else {
+                //没有用户信息 要派发action 让仓库进行存储
+                try {
+                    //没有用户信息,派发action让仓库存储信息  等待异步完成 放行
+                    await store.dispatch('userLoginInfo')
+                    next()
+                } catch (error) {
+                    //token过期 获取不到用户信息  先清除本地token 
+                    await store.dispatch('userLogout')
+                    next('/login')
+                }
+            }
+            next()
+        }
+    } else {
+        //未登录 ；不能去交易相关的，不能去支付相关的 pay paysuccess
+        if (to.path == '/trade' || to.path.includes('/pay') || to.path.includes('/center')) {
+            //把未登录的时候想去而没有去成的信息存储在路由中
+            next('/login?redirect=' + to.path)
+        } else {
+            next()
+        }
+    }
+})
+
+export default router

@@ -1,11 +1,14 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-16 15:16:48
- * @LastEditTime: 2022-08-17 14:22:43
+ * @LastEditTime: 2022-08-20 20:40:57
  */
 
 /* 对于 axios 进行二次封装 */
 import axios from "axios";
+
+//在当前模块中引入store
+import store from "@/store";
 
 //引入进度条
 import nprogress from 'nprogress'
@@ -28,6 +31,19 @@ requests.interceptors.request.use((config) => {
     //config : 配置对象,里面有一个属性很重要 headers请求头
     //进度条开始
     // console.log(config)
+    if (store.state.detail.uuid_token) {
+        //给请求头加一个字段 和后台约定好的
+        config.headers.userTempId = store.state.detail.uuid_token
+    } else {
+        console.log('无UUID');
+    }
+
+    //携带token
+    if (store.state.user.token) {
+        config.headers.token = store.state.user.token
+    } else {
+        console.log('无token');
+    }
     nprogress.start()
     return config
 })

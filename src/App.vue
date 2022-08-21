@@ -1,14 +1,14 @@
 <!--
  * @Author: Jin Haocong
  * @Date: 2022-08-16 10:37:40
- * @LastEditTime: 2022-08-17 13:16:24
+ * @LastEditTime: 2022-08-21 21:02:21
 -->
 <template>
   <div id="app">
     <Header></Header>
     <router-view></router-view>
     <!-- home,search显示 login,register隐藏 -->
-    <Footer v-show="$route.meta.show"></Footer>
+    <Footer v-show="$route.meta.show" class="footer"></Footer>
   </div>
 </template>
 
@@ -17,6 +17,11 @@ import Header from "@/components/header/IndexPage.vue";
 import Footer from "@/components/footer/IndexPage.vue";
 export default {
   name: "App",
+  data() {
+    return {
+      msg: "asbdwda",
+    };
+  },
   components: {
     Header,
     Footer,
@@ -28,5 +33,5 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less" scoped>
 </style>

@@ -1,14 +1,17 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-18 21:24:26
- * @LastEditTime: 2022-08-19 11:38:07
+ * @LastEditTime: 2022-08-20 23:05:52
  */
 
 import { reqGetDetailInfo, reqAddUpdateShopCar } from '@/api/index'
-
+//生成uuid的模块
+import { getUUID } from '@/utils/uuid_token'
 const state = {
     goodInfo: {},
-    shopCarResultInfo: {}
+    shopCarResultInfo: {},
+    //游客临时身份
+    uuid_token: getUUID()
 };
 const mutations = {
     GETGOODINFO(state, goodInfo) {
@@ -16,7 +19,6 @@ const mutations = {
     },
     ADDUPDATESHOPCAR(state, resInfo) {
         state.shopCarResultInfo = resInfo
-        console.log('加入成功');
     }
 };
 const actions = {

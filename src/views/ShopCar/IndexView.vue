@@ -5,7 +5,7 @@
       <div class="cart-th">
         <div class="cart-th1">全部</div>
         <div class="cart-th2">商品</div>
-        <div class="cart-th3">颜色</div>
+        <div class="cart-th3">型号</div>
         <div class="cart-th4">版本</div>
         <div class="cart-th5">单价（元）</div>
         <div class="cart-th6">数量</div>
@@ -13,167 +13,63 @@
         <div class="cart-th8">操作</div>
       </div>
       <div class="cart-body">
-        <ul class="cart-list">
+        <ul class="cart-list" v-for="car in carList" :key="car.id">
           <li class="cart-list-con1">
-            <input type="checkbox" name="chk_list" class="con1box" />
+            <input
+              type="checkbox"
+              name="chk_list"
+              class="con1box"
+              :checked="car.isChecked == 1"
+              @change="handleChange(car.skuId, $event.target.checked)"
+            />
           </li>
           <li class="cart-list-con2">
-            <img src="./images/goods1.png" />
+            <img :src="car.imgUrl" />
             <div class="item-msg">
-              米家（MIJIA） 小米小白智能摄像机增强版
-              1080p高清360度全景拍摄AI增强
+              {{ car.skuName }}
             </div>
           </li>
           <li class="cart-list-con3">
-            <div class="item-txt">YANSE</div>
+            <div class="item-txt">{{ goodsInfo(car).style }}</div>
           </li>
           <li class="cart-list-con4">
-            <div class="item-txt">语音升级款</div>
+            <div class="item-txt">{{ goodsInfo(car).type }}</div>
           </li>
           <li class="cart-list-con5">
-            <span class="price">399.00</span>
+            <span class="price">{{ car.skuPrice }}</span>
           </li>
+          <!-- 数量 -->
           <li class="cart-list-con6">
-            <a href="javascript:void(0)" class="mins">-</a>
+            <a
+              href="javascript:void(0)"
+              class="mins"
+              @click="handler('minus', -1, car)"
+              >-</a
+            >
             <input
               autocomplete="off"
               type="text"
-              value="1"
+              :value="car.skuNum"
               minnum="1"
               class="itxt"
+              @change="handler('change', $event.target.value * 1, car)"
             />
-            <a href="javascript:void(0)" class="plus">+</a>
+            <a
+              href="javascript:void(0)"
+              class="plus"
+              @click="handler('add', +1, car)"
+              >+</a
+            >
           </li>
           <li class="cart-list-con7">
-            <span class="sum">399</span>
+            <span class="sum">{{ car.skuNum * car.skuPrice }}</span>
           </li>
           <li class="cart-list-con8">
             <div class="right">
               <button class="sindelet">移到收藏</button>
-              <button class="favorite">删除</button>
-            </div>
-          </li>
-        </ul>
-        <ul class="cart-list">
-          <li class="cart-list-con1">
-            <input type="checkbox" name="chk_list" class="con1box" />
-          </li>
-          <li class="cart-list-con2">
-            <img src="./images/goods1.png" />
-            <div class="item-msg">
-              米家（MIJIA） 小米小白智能摄像机增强版
-              1080p高清360度全景拍摄AI增强
-            </div>
-          </li>
-          <li class="cart-list-con3">
-            <div class="item-txt">YANSE</div>
-          </li>
-          <li class="cart-list-con4">
-            <div class="item-txt">语音升级款</div>
-          </li>
-          <li class="cart-list-con5">
-            <span class="price">399.00</span>
-          </li>
-          <li class="cart-list-con6">
-            <a href="javascript:void(0)" class="mins">-</a>
-            <input
-              autocomplete="off"
-              type="text"
-              value="1"
-              minnum="1"
-              class="itxt"
-            />
-            <a href="javascript:void(0)" class="plus">+</a>
-          </li>
-          <li class="cart-list-con7">
-            <span class="sum">399</span>
-          </li>
-          <li class="cart-list-con8">
-            <div class="right">
-              <button class="sindelet">移到收藏</button>
-              <button class="favorite">删除</button>
-            </div>
-          </li>
-        </ul>
-        <ul class="cart-list">
-          <li class="cart-list-con1">
-            <input type="checkbox" name="chk_list" class="con1box" />
-          </li>
-          <li class="cart-list-con2">
-            <img src="./images/goods1.png" />
-            <div class="item-msg">
-              米家（MIJIA） 小米小白智能摄像机增强版
-              1080p高清360度全景拍摄AI增强
-            </div>
-          </li>
-          <li class="cart-list-con3">
-            <div class="item-txt">YANSE</div>
-          </li>
-          <li class="cart-list-con4">
-            <div class="item-txt">语音升级款</div>
-          </li>
-          <li class="cart-list-con5">
-            <span class="price">399.00</span>
-          </li>
-          <li class="cart-list-con6">
-            <a href="javascript:void(0)" class="mins">-</a>
-            <input
-              autocomplete="off"
-              type="text"
-              value="1"
-              minnum="1"
-              class="itxt"
-            />
-            <a href="javascript:void(0)" class="plus">+</a>
-          </li>
-          <li class="cart-list-con7">
-            <span class="sum">399</span>
-          </li>
-          <li class="cart-list-con8">
-            <div class="right">
-              <button class="sindelet">移到收藏</button>
-              <button class="favorite">删除</button>
-            </div>
-          </li>
-        </ul>
-        <ul class="cart-list">
-          <li class="cart-list-con1">
-            <input type="checkbox" name="chk_list" class="con1box" />
-          </li>
-          <li class="cart-list-con2">
-            <img src="./images/goods1.png" />
-            <div class="item-msg">
-              米家（MIJIA） 小米小白智能摄像机增强版
-              1080p高清360度全景拍摄AI增强
-            </div>
-          </li>
-          <li class="cart-list-con3">
-            <div class="item-txt">YANSE</div>
-          </li>
-          <li class="cart-list-con4">
-            <div class="item-txt">语音升级款</div>
-          </li>
-          <li class="cart-list-con5">
-            <span class="price">399.00</span>
-          </li>
-          <li class="cart-list-con6">
-            <a href="javascript:void(0)" class="mins">-</a>
-            <input
-              autocomplete="off"
-              type="text"
-              value="1"
-              minnum="1"
-              class="itxt"
-            />
-            <a href="javascript:void(0)" class="plus">+</a>
-          </li>
-          <li class="cart-list-con7">
-            <span class="sum">399</span>
-          </li>
-          <li class="cart-list-con8">
-            <div class="right">
-              <button class="sindelet">移到收藏</button>
-              <button class="favorite">删除</button>
+              <button class="favorite" @click="handleDelete(car.skuId)">
+                删除
+              </button>
             </div>
           </li>
         </ul>
@@ -181,22 +77,27 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" />
+        <input
+          class="chooseAll"
+          type="checkbox"
+          :checked="isAllChecked && carList.length > 0"
+          @click="allChecked"
+        />
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
-        <a href="#none">移到我的关注</a>
-        <a href="#none">清除下柜商品</a>
+        <a @click="deleteAllChecked">删除选中的商品</a>
+        <a>移到我的关注</a>
+        <a>清除下柜商品</a>
       </div>
       <div class="money-box">
         <div class="chosed">已选择 <span>0</span>件商品</div>
         <div class="sumprice">
           <em>总价（不含运费） ：</em>
-          <i class="summoney">0</i>
+          <i class="summoney">{{ totalPrice }}</i>
         </div>
         <div class="sumbtn">
-          <button class="sum">结算</button>
+          <button class="sum" @click="$router.push('/trade')">结算</button>
         </div>
       </div>
     </div>
@@ -204,8 +105,135 @@
 </template>
 
 <script>
+import throttle from "lodash/throttle";
+import { mapGetters } from "vuex";
+// import throttle from "lodash/throttle";
 export default {
   name: "ShopCar",
+  mounted() {
+    this.getData();
+  },
+  methods: {
+    getData() {
+      this.$store.dispatch("getShopCarList");
+    },
+
+    goodsInfo(car) {
+      let style = car.skuName.split(" ")[0];
+      let type = car.skuName.split(" ")[1];
+
+      return { style, type };
+    },
+
+    //修改数量 addUpdateShopCar 并实现节流
+    //disNumber 代表的是 $event.target.value * 1  type代表的时 add  还是minus 还是 change
+    handler: throttle(async function (type, disNumber, car) {
+      let changeNum = 0;
+      switch (type) {
+        //加号
+        case "add":
+          changeNum = 1;
+          break;
+        case "minus":
+          //判断当前产品数是否大于 1
+          changeNum = car.skuNum > 1 ? -1 : 0;
+          break;
+        case "change":
+          //判断是否带有非法数字 是否有小数 是由小于零
+          // if (isNaN(disNumber) || disNumber < 1) {
+          //   changeNum = 0;
+          // } else {
+          //   changeNum = parseInt(disNumber) - car.skuNum;
+          // }
+
+          //三目表达式写法
+          changeNum =
+            isNaN(disNumber) || disNumber < 1
+              ? 0
+              : parseInt(disNumber) - car.skuNum;
+
+          break;
+      }
+      //派发action
+      try {
+        await this.$store.dispatch("addUpdateShopCar", {
+          skuId: car.skuId,
+          skuNumber: changeNum,
+        });
+        //修改成功后再次获得最新数据
+        this.getData();
+      } catch (error) {
+        console.log(error);
+      }
+    }, 1000),
+
+    //删除产品
+    async handleDelete(skuId) {
+      try {
+        await this.$store.dispatch("deleteShopCar", skuId);
+      } catch (error) {
+        alert(error.message);
+      }
+      this.getData();
+    },
+
+    //修改选中状态
+    async handleChange(skuId, isChecked) {
+      try {
+        //带给服务器的参数 isChecked 不应该是布尔值 应该是 0 或 1
+        isChecked = Number(isChecked);
+        await this.$store.dispatch("changeStatus", { skuId, isChecked });
+
+        //修改数据成功 再次获得购物车数据
+        this.getData();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+
+    //删除全部选中的商品
+    async deleteAllChecked() {
+      try {
+        //派发action
+        await this.$store.dispatch("deleteAllChecked");
+        this.getData();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+
+    //修改产品全选状态
+    async allChecked(evt) {
+      console.log(evt);
+      try {
+        let checked = (await evt.target.checked) ? "1" : "0";
+        //派发action
+        await this.$store.dispatch("updateCheckAll", checked);
+        this.getData();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+  },
+  computed: {
+    ...mapGetters(["carList"]),
+
+    //计算购买产品总价
+    totalPrice() {
+      let sum = 0;
+      this.carList.forEach((item) => {
+        var count = item.skuPrice * item.skuNum;
+        sum = sum + count;
+      });
+      return sum;
+    },
+
+    //判断底部复选框是否勾选
+    isAllChecked() {
+      //全部满足条件才返回真 有一个假就返回假
+      return this.carList.every((item) => item.isChecked === 1);
+    },
+  },
 };
 </script>
 
@@ -348,6 +376,7 @@ export default {
             border-radius: 15px;
             text-decoration: none;
             transition: all 0.1s linear;
+            width: 9px;
           }
 
           input {
@@ -372,6 +401,7 @@ export default {
             border-radius: 15px;
             text-decoration: none;
             transition: all 0.1s linear;
+            width: 9px;
           }
           .mins:hover {
             box-shadow: 1px 1px 2px 1px rgb(161, 161, 161);

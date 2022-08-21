@@ -85,7 +85,7 @@
                   <div class="p-img">
                     <!-- 路由跳转时别忘记带id -->
                     <router-link :to="`/detail/${good.id}`"
-                      ><img :src="good.defaultImg"
+                      ><img v-lazy="good.defaultImg"
                     /></router-link>
                   </div>
                   <div class="price">
@@ -187,6 +187,7 @@ export default {
   },
   mounted() {
     this.getData();
+    // this.$store.dispatch("userLoginInfo");
   },
   computed: {
     //mapGetters 里面的写法 传递的是数组

@@ -1,7 +1,7 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-16 16:03:04
- * @LastEditTime: 2022-08-18 21:27:14
+ * @LastEditTime: 2022-08-20 21:47:48
  */
 
 import Vue from "vue";
@@ -13,6 +13,9 @@ Vue.use(Vuex)
 import home from './home'
 import search from "./search";
 import detail from './detail'
+import shopcar from './shopcar'
+import user from './suer'
+import trade from "./trade"
 
 /* //state:仓库存储数据
 const state = {
@@ -53,6 +56,9 @@ export default new Vuex.Store({
     modules: {
         home,
         search,
-        detail
+        detail,
+        shopcar,
+        user,
+        trade
     }
 })

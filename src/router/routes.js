@@ -1,7 +1,7 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-18 21:11:37
- * @LastEditTime: 2022-08-19 16:00:50
+ * @LastEditTime: 2022-08-21 20:18:52
  */
 
 
@@ -14,6 +14,14 @@ import Register from '@/views/register/IndexView'
 import Detail from '@/views/Detail/IndexView'
 import AddCarSuccess from '@/views/AddCartSuccess/IndexView'
 import ShopCar from "@/views/ShopCar/IndexView"
+import Trade from '@/views/Trade/IndexView'
+import Pay from '@/views/Pay/IndexView'
+import PaySuccess from "@/views/PaySuccess/IndexView"
+import PersonalInformation from '@/views/Center/IndexView'
+
+//二级路由
+import MyOrder from '@/views/Center/myOrder/MyOrder'
+import GroupOrder from '@/views/Center/groupOrder/GroupOrder'
 
 export default [
     {
@@ -88,6 +96,79 @@ export default [
         meta: {
             show: false
         }
+    },
+    {
+        path: '/trade',
+        component: Trade,
+        meta: {
+            //控制底部是否显示
+            show: true
+        },
+        //路由都享守卫
+        beforeEnter: (to, from, next) => {
+            //去交易页面必须是从购物车来 起其他路径必须停留在当前
+            if (from.path == '/shopcar') {
+                next()
+            } else {
+                next(false)
+            }
+        }
+    },
+    {
+        path: '/pay',
+        component: Pay,
+        name: 'pat',
+        meta: {
+            show: true
+        },
+        beforeEnter: (to, from, next) => {
+            if (from.path == '/trade') {
+                next()
+            } else {
+                next(false)
+            }
+        }
+    },
+    {
+        path: "/paysuccess",
+        component: PaySuccess,
+        name: 'paysuccess',
+        meta: {
+            show: true
+        },
+        // beforeEnter: (to, from, next) => {
+        //     if (from.path == '/pay') {
+        //         next()
+        //     } else {
+        //         next(false)
+        //     }
+        // }
+    },
+    {
+        path: '/center',
+        component: PersonalInformation,
+        name: 'center',
+        meta: {
+            show: true
+        },
+        //二级路由
+        children: [
+            {
+                path: '/center/myorder',
+                component: MyOrder,
+                name: 'myorder'
+            },
+            {
+                path: '/center/grouporder',
+                component: GroupOrder,
+                name: 'grouporder'
+            },
+            {
+                //重定向
+                path: "/center",
+                redirect: '/center/myorder'
+            }
+        ]
     },
     {
         //重定向

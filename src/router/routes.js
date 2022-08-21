@@ -1,32 +1,33 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-18 21:11:37
- * @LastEditTime: 2022-08-21 20:18:52
+ * @LastEditTime: 2022-08-21 22:12:59
  */
 
 
 //路由配置信息
 
-import Home from '@/views/home/IndexView'
-import Search from '@/views/search/IndexView'
-import Login from '@/views/login/IndexView'
-import Register from '@/views/register/IndexView'
-import Detail from '@/views/Detail/IndexView'
-import AddCarSuccess from '@/views/AddCartSuccess/IndexView'
-import ShopCar from "@/views/ShopCar/IndexView"
-import Trade from '@/views/Trade/IndexView'
-import Pay from '@/views/Pay/IndexView'
-import PaySuccess from "@/views/PaySuccess/IndexView"
-import PersonalInformation from '@/views/Center/IndexView'
+// import Home from '@/views/home/IndexView'
+// import Search from '@/views/search/IndexView'
+// import Login from '@/views/login/IndexView'
+// import Register from '@/views/register/IndexView'
+// import Detail from '@/views/Detail/IndexView'
+// import AddCarSuccess from '@/views/AddCartSuccess/IndexView'
+// import ShopCar from "@/views/ShopCar/IndexView"
+// import Trade from '@/views/Trade/IndexView'
+// import Pay from '@/views/Pay/IndexView'
+// import PaySuccess from "@/views/PaySuccess/IndexView"
+// import PersonalInformation from '@/views/Center/IndexView'
 
 //二级路由
-import MyOrder from '@/views/Center/myOrder/MyOrder'
-import GroupOrder from '@/views/Center/groupOrder/GroupOrder'
+// import MyOrder from '@/views/Center/myOrder/MyOrder'
+// import GroupOrder from '@/views/Center/groupOrder/GroupOrder'
 
 export default [
     {
         path: '/home',
-        component: Home,
+        //路由懒加载
+        component: () => import('@/views/home/IndexView'),
         name: 'home',
         meta: {
             show: true
@@ -34,7 +35,7 @@ export default [
     },
     {
         path: '/search/:keyword?',
-        component: Search,
+        component: () => import('@/views/search/IndexView'),
         name: 'search',
         meta: {
             show: true
@@ -60,7 +61,7 @@ export default [
     },
     {
         path: '/detail/:skuId',
-        component: Detail,
+        component: () => import('@/views/Detail/IndexView'),
         name: 'detail',
         meta: {
             show: true
@@ -69,7 +70,7 @@ export default [
     },
     {
         path: "/addcarsuccess",
-        component: AddCarSuccess,
+        component: () => import('@/views/AddCartSuccess/IndexView'),
         name: "addcarsuccess",
         meta: {
             show: true
@@ -77,7 +78,7 @@ export default [
     },
     {
         path: "/shopcar",
-        component: ShopCar,
+        component: () => import("@/views/ShopCar/IndexView"),
         name: 'shopcar',
         meta: {
             show: true
@@ -85,21 +86,21 @@ export default [
     },
     {
         path: '/login',
-        component: Login,
+        component: () => import('@/views/login/IndexView'),
         meta: {
             show: false
         }
     },
     {
         path: '/register',
-        component: Register,
+        component: () => import('@/views/register/IndexView'),
         meta: {
             show: false
         }
     },
     {
         path: '/trade',
-        component: Trade,
+        component: () => import('@/views/Trade/IndexView'),
         meta: {
             //控制底部是否显示
             show: true
@@ -116,7 +117,7 @@ export default [
     },
     {
         path: '/pay',
-        component: Pay,
+        component: () => import('@/views/Pay/IndexView'),
         name: 'pat',
         meta: {
             show: true
@@ -131,7 +132,7 @@ export default [
     },
     {
         path: "/paysuccess",
-        component: PaySuccess,
+        component: () => import("@/views/PaySuccess/IndexView"),
         name: 'paysuccess',
         meta: {
             show: true
@@ -146,7 +147,7 @@ export default [
     },
     {
         path: '/center',
-        component: PersonalInformation,
+        component: () => import('@/views/Center/IndexView'),
         name: 'center',
         meta: {
             show: true
@@ -155,12 +156,12 @@ export default [
         children: [
             {
                 path: '/center/myorder',
-                component: MyOrder,
+                component: () => import('@/views/Center/myOrder/MyOrder'),
                 name: 'myorder'
             },
             {
                 path: '/center/grouporder',
-                component: GroupOrder,
+                component: () => import('@/views/Center/groupOrder/GroupOrder'),
                 name: 'grouporder'
             },
             {

@@ -1,7 +1,7 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-18 21:11:37
- * @LastEditTime: 2022-08-21 22:12:59
+ * @LastEditTime: 2022-08-22 10:11:54
  */
 
 
@@ -168,6 +168,37 @@ export default [
                 //重定向
                 path: "/center",
                 redirect: '/center/myorder'
+            }
+        ]
+    },
+    {
+        path: '/communication',
+        component: () => import('@/views/communiaction/IndexView'),
+        name: 'communication',
+        children: [
+            {
+                path: '/communication/event',
+                component: () => import('@/views/communiaction/EventTest/EventTest')
+            },
+            {
+                path: '/communication/model',
+                component: () => import('@/views/communiaction/v-model/ModelTest')
+            },
+            {
+                path: '/communication/sync',
+                component: () => import('@/views/communiaction/sync/SyncTest')
+            },
+            {
+                path: '/communication/attrs-listeners',
+                component: () => import('@/views/communiaction/AttrsListeners/AttrsListeners')
+            },
+            {
+                path: '/communication/children-parent',
+                component: () => import('@/views/communiaction/ChildrenParentTest/ChildrenParent')
+            },
+            {
+                path:'/communication/scopeslot',
+                component:()=> import('@/views/communiaction/ScopSlot/ScopSlot')
             }
         ]
     },

@@ -1,7 +1,7 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-16 10:37:40
- * @LastEditTime: 2022-08-21 22:20:43
+ * @LastEditTime: 2022-08-22 09:13:23
  */
 import Vue from 'vue'
 import App from './App.vue'
@@ -23,7 +23,7 @@ import '@/mock/mocksServe'
 //引入swiper样式
 import "swiper/swiper-bundle.min.css";
 
-//element
+//element 按需引入
 import { Button, MessageBox } from 'element-ui';
 Vue.component(Button.name, Button)
 Vue.prototype.$msgbox = MessageBox;

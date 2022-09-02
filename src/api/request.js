@@ -1,7 +1,7 @@
 /*
  * @Author: Jin Haocong
  * @Date: 2022-08-16 15:16:48
- * @LastEditTime: 2022-08-20 20:40:57
+ * @LastEditTime: 2022-09-01 21:29:32
  */
 
 /* 对于 axios 进行二次封装 */
@@ -30,6 +30,7 @@ const requests = axios.create({
 requests.interceptors.request.use((config) => {
     //config : 配置对象,里面有一个属性很重要 headers请求头
     //进度条开始
+    nprogress.start()
     // console.log(config)
     if (store.state.detail.uuid_token) {
         //给请求头加一个字段 和后台约定好的
@@ -44,7 +45,7 @@ requests.interceptors.request.use((config) => {
     } else {
         console.log('无token');
     }
-    nprogress.start()
+
     return config
 })
 
